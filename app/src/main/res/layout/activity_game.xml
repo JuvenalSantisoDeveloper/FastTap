@@ -12,5 +12,35 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:id="@+id/activity_game_tv_time"
+        android:text="@string/tiempo"/>
+
+    <ImageButton
+        android:layout_width="@dimen/activity_game_central_button"
+        android:layout_height="@dimen/activity_game_central_button"
+        android:layout_centerInParent="true"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:src="@drawable/button_red"
+        android:id="@+id/activity_game_ib_game"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:id="@+id/activity_game_tv_score"
+        android:text="@string/score"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:id="@+id/activity_game_tv_max_score"
+        android:text="@string/score"/>
 </RelativeLayout>
