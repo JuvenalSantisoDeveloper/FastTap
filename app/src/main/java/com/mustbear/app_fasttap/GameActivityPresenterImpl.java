@@ -1,5 +1,7 @@
 package com.mustbear.app_fasttap;
 
+import android.content.Context;
+
 public class GameActivityPresenterImpl implements GameActivityPresenter {
 
     private GameActivityView mView;
@@ -11,8 +13,13 @@ public class GameActivityPresenterImpl implements GameActivityPresenter {
     }
 
     @Override
-    public void saveStatistics(int score) {
-        mRepository.saveStatistics(score);
+    public void onCreate(Context ctx) {
+        mRepository.loadLocalScore(ctx);
+    }
+
+    @Override
+    public void saveStatistics(Context ctx, int score) {
+        mRepository.saveStatistics(ctx, score);
     }
 
     @Override

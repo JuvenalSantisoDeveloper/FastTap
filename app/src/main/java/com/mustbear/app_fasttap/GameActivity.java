@@ -12,7 +12,7 @@ import butterknife.OnClick;
 
 public class GameActivity extends AppCompatActivity implements GameActivityView {
 
-    private static final int TIMERCOUNTDOWN = 60000;
+    private static final int COUNTDOWN = 60000;
     private static final int SECOND = 1000;
 
 
@@ -45,7 +45,7 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
 
         mCurrentScore = 0;
 
-        mTimerCountDown = new CountDownTimer(TIMERCOUNTDOWN, SECOND) {
+        mTimerCountDown = new CountDownTimer(COUNTDOWN, SECOND) {
             @Override
             public void onTick(long millisUntilFinished) {
                 mTimeTextView.setText(String.valueOf(millisUntilFinished/SECOND));
@@ -57,6 +57,8 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
                 timeOver();
             }
         };
+
+        mPresenter.onCreate(this);
     }
 
     private void initUI() {
@@ -81,7 +83,7 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
 
     @Override
     public void timeOver() {
-        mPresenter.saveStatistics(mCurrentScore);
+        mPresenter.saveStatistics(this, mCurrentScore);
         mMaxScoreTextView.setText(String.valueOf(mCurrentScore));
         mCurrentScore = 0;
         mScoreTextView.setText(String.valueOf(mCurrentScore));

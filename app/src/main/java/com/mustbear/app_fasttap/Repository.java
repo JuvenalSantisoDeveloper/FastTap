@@ -1,6 +1,9 @@
 package com.mustbear.app_fasttap;
 
+import android.content.Context;
+
 public interface Repository {
-    void saveStatistics(int score);
+    void saveStatistics(Context ctx, int score);
     int lookScore();
+    void loadLocalScore(Context ctx);
 }
