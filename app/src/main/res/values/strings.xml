@@ -1,9 +1,9 @@
 <resources>
 
-    <string name="app_name">APP_FastTap</string>
+    <string name="app_name">FastTap</string>
 
     <!-- prueba -->
-    <string name="tiempo">tiempo</string>
-    <string name="score">puntuacion</string>
+    <string name="time_es">Tiempo</string>
+    <string name="score_es">Puntos</string>
 
 </resources>

@@ -7,6 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/colorBackground"
     tools:context="com.mustbear.app_fasttap.GameActivity">
 
     <TextView
@@ -14,16 +15,19 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
+        android:textSize="@dimen/activity_game_time"
         android:layout_margin="@dimen/activity_horizontal_margin"
         android:id="@+id/activity_game_tv_time"
-        android:text="@string/tiempo"/>
+        android:textColor="@color/colorPrimaryText"
+        android:text="@string/time_es"/>
 
     <ImageButton
+        android:background="@drawable/circle_selector"
         android:layout_width="@dimen/activity_game_central_button"
         android:layout_height="@dimen/activity_game_central_button"
+        android:scaleType="fitXY"
         android:layout_centerInParent="true"
         android:layout_margin="@dimen/activity_horizontal_margin"
-        android:src="@drawable/button_red"
         android:id="@+id/activity_game_ib_game"/>
 
     <TextView
@@ -31,16 +35,20 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:textSize="@dimen/activity_game_score"
         android:layout_margin="@dimen/activity_horizontal_margin"
         android:id="@+id/activity_game_tv_score"
-        android:text="@string/score"/>
+        android:textColor="@color/colorSecondaryText"
+        android:text="@string/score_es"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:textSize="@dimen/activity_max_score"
         android:layout_margin="@dimen/activity_horizontal_margin"
         android:id="@+id/activity_game_tv_max_score"
-        android:text="@string/score"/>
+        android:textColor="@color/colorActionBar"
+        android:text="@string/score_es"/>
 </RelativeLayout>

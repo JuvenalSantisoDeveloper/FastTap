@@ -14,6 +14,8 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
 
     private static final int TIMERCOUNTDOWN = 60000;
     private static final int SECOND = 1000;
+    private static final int ZERO = 0;
+    private static final long TIME_RUNNING_OUT = 3;
 
 
     @BindView(R.id.activity_game_tv_time)
@@ -43,7 +45,7 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
     private void initData() {
         mPresenter = new GameActivityPresenterImpl(this);
 
-        mCurrentScore = 0;
+        mCurrentScore = ZERO;
 
         mTimerCountDown = new CountDownTimer(TIMERCOUNTDOWN, SECOND) {
             @Override
@@ -72,7 +74,7 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
 
     @Override
     public void tap() {
-        if(mCurrentScore == 0) {
+        if(mCurrentScore == ZERO) {
             startTimer();
         }
         mCurrentScore++;
@@ -83,7 +85,7 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
     public void timeOver() {
         mPresenter.saveStatistics(mCurrentScore);
         mMaxScoreTextView.setText(String.valueOf(mCurrentScore));
-        mCurrentScore = 0;
+        mCurrentScore = ZERO;
         mScoreTextView.setText(String.valueOf(mCurrentScore));
     }
 

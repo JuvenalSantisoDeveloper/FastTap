@@ -4,5 +4,13 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <!-- Button Image -->
-    <dimen name="activity_game_central_button">150dp</dimen>
+    <dimen name="activity_game_central_button">200dp</dimen>
+    <dimen name="stroke_width">5dp</dimen>
+    <dimen name="stroke_gap">1dp</dimen>
+
+    <!-- Text -->
+    <dimen name="activity_game_score">80sp</dimen>
+    <dimen name="activity_max_score">60sp</dimen>
+    <dimen name="activity_game_time">100sp</dimen>
+
 </resources>
