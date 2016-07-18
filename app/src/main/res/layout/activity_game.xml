@@ -45,7 +45,7 @@
             android:textSize="@dimen/activity_score_labels"
             android:layout_margin="@dimen/activity_horizontal_margin"
             android:id="@+id/activity_game_tv_max_score"
-            android:textColor="@color/colorActionBar"
+            android:textColor="@color/colorPrimary"
             android:text="@string/score_es"/>
 
         <LinearLayout
@@ -70,7 +70,7 @@
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:textSize="@dimen/activity_game_score"
                 android:id="@+id/activity_game_tv_score"
-                android:textColor="@color/colorSecondaryText"/>
+                android:textColor="@color/score"/>
             </LinearLayout>
         </RelativeLayout>
 </RelativeLayout>

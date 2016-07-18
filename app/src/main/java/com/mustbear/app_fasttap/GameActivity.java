@@ -4,7 +4,9 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ContextThemeWrapper;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -67,8 +69,19 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
     private void checkTimeIsRunningOut(long millisUntilFinished) {
         if(millisUntilFinished/SECOND <= TEN) {
             mTimeTextView.setAnimation(AnimationUtils.loadAnimation(GameActivity.this, R.anim.blink_animation));
-            mTimeTextView.setTextColor(Color.RED);
+            mTimeTextView.setTextColor(ContextCompat.getColor(GameActivity.this, R.color.endUpTime));
         }
+    }
+    //TODO: comprobar si esta forma es eficiente ~ probablemente no lo sea
+    /* Uso de funcion booleana newRecord que se llama para comprobar si tienes el record
+     y en función de ello cambiar el color del score y para setear la max score (imagino que esto
+     último se hace ahora con el fichero
+    */
+    private boolean isNewRecord(int currentScore) {
+        if(currentScore > Integer.valueOf(mMaxScoreTextView.getText().toString())) {
+            return true;
+        }
+        return false;
     }
 
     private void initUI() {
@@ -89,14 +102,25 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
         }
         mCurrentScore++;
         mScoreTextView.setText(String.valueOf(mCurrentScore));
+        if(Integer.valueOf(mMaxScoreTextView.getText().toString()) > ZERO && isNewRecord(mCurrentScore)) {
+            mScoreTextView.setTextColor(ContextCompat.getColor(this, R.color.maxScorer));
+            mScoreTextView.setAnimation(AnimationUtils.loadAnimation(GameActivity.this, R.anim.shake_animation));
+        }
     }
 
+
+    //TODO: comprobar si esta forma es eficiente ~ probablemente no lo sea
+    /* comentario previo sobre este toDo y el uso de la funcion isNewRecord*/
     @Override
     public void timeOver() {
         mPresenter.saveStatistics(mCurrentScore);
-        mMaxScoreTextView.setText(String.valueOf(mCurrentScore));
+        if(isNewRecord(mCurrentScore)) {
+            mMaxScoreTextView.setText(String.valueOf(mCurrentScore));
+        }
         mCurrentScore = ZERO;
         mScoreTextView.setText(String.valueOf(mCurrentScore));
+        mTimeTextView.setTextColor(ContextCompat.getColor(this, R.color.colorPrimaryText));
+        mScoreTextView.setTextColor(ContextCompat.getColor(this, R.color.score));
     }
 
     @Override

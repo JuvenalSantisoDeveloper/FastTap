@@ -11,9 +11,11 @@
     <color name="colorDivider">#B6B6B6</color>
 
     <!-- Added by us -->
-    <color name="colorBackground">#E3F2FD</color>
+    <color name="colorBackground">#EFEBE9</color>
     <color name="transparent">#00000000</color>
-    <color name="colorActionBar">#5D4037</color>
+    <color name="endUpTime">#FF5722</color>
+    <color name="score">#FF7043</color>
+    <color name="maxScorer">#64DD17</color>
 
 
 </resources>
