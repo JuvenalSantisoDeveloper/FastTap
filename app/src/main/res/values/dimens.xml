@@ -9,8 +9,9 @@
     <dimen name="stroke_gap">1dp</dimen>
 
     <!-- Text -->
-    <dimen name="activity_game_score">80sp</dimen>
-    <dimen name="activity_max_score">60sp</dimen>
+    <dimen name="activity_game_score">60sp</dimen>
+    <dimen name="activity_score_labels">60sp</dimen>
     <dimen name="activity_game_time">100sp</dimen>
+    <dimen name="text_gap">5sp</dimen>
 
 </resources>

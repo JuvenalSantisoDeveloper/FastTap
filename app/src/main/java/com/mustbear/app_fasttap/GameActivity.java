@@ -1,8 +1,11 @@
 package com.mustbear.app_fasttap;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -12,10 +15,10 @@ import butterknife.OnClick;
 
 public class GameActivity extends AppCompatActivity implements GameActivityView {
 
-    private static final int TIMERCOUNTDOWN = 60000;
+    private static final int TIMERCOUNTDOWN = 15000;
     private static final int SECOND = 1000;
     private static final int ZERO = 0;
-    private static final long TIME_RUNNING_OUT = 3;
+    private static final int TEN = 10;
 
 
     @BindView(R.id.activity_game_tv_time)
@@ -44,13 +47,13 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
 
     private void initData() {
         mPresenter = new GameActivityPresenterImpl(this);
-
         mCurrentScore = ZERO;
 
         mTimerCountDown = new CountDownTimer(TIMERCOUNTDOWN, SECOND) {
             @Override
             public void onTick(long millisUntilFinished) {
-                mTimeTextView.setText(String.valueOf(millisUntilFinished/SECOND));
+                mTimeTextView.setText(String.valueOf(millisUntilFinished / SECOND));
+                checkTimeIsRunningOut(millisUntilFinished);
             }
 
             @Override
@@ -59,6 +62,13 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
                 timeOver();
             }
         };
+    }
+
+    private void checkTimeIsRunningOut(long millisUntilFinished) {
+        if(millisUntilFinished/SECOND <= TEN) {
+            mTimeTextView.setAnimation(AnimationUtils.loadAnimation(GameActivity.this, R.anim.blink_animation));
+            mTimeTextView.setTextColor(Color.RED);
+        }
     }
 
     private void initUI() {

@@ -30,25 +30,47 @@
         android:layout_margin="@dimen/activity_horizontal_margin"
         android:id="@+id/activity_game_ib_game"/>
 
-    <TextView
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:textSize="@dimen/activity_game_score"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:id="@+id/activity_game_tv_score"
-        android:textColor="@color/colorSecondaryText"
-        android:text="@string/score_es"/>
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:textSize="@dimen/activity_max_score"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:id="@+id/activity_game_tv_max_score"
-        android:textColor="@color/colorActionBar"
-        android:text="@string/score_es"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:textSize="@dimen/activity_score_labels"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:id="@+id/activity_game_tv_max_score"
+            android:textColor="@color/colorActionBar"
+            android:text="@string/score_es"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/activity_score_labels"
+                android:layout_margin="@dimen/text_gap"
+                android:id="@+id/activity_game_tv_score_text"
+                android:textColor="@color/colorPrimaryText"
+                android:text="@string/score_es"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:textSize="@dimen/activity_game_score"
+                android:id="@+id/activity_game_tv_score"
+                android:textColor="@color/colorSecondaryText"/>
+            </LinearLayout>
+        </RelativeLayout>
 </RelativeLayout>
