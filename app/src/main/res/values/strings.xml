@@ -3,7 +3,8 @@
     <string name="app_name">FastTap</string>
 
     <!-- prueba -->
-    <string name="time_es">Tiempo: </string>
-    <string name="score_es">Puntos: </string>
+    <string name="time">Tiempo: </string>
+    <string name="score">Puntos: </string>
+    <string name="record">Récord: </string>
 
 </resources>

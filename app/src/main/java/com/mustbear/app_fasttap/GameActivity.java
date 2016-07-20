@@ -1,12 +1,9 @@
 package com.mustbear.app_fasttap;
 
-import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.ContextThemeWrapper;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -17,10 +14,10 @@ import butterknife.OnClick;
 
 public class GameActivity extends AppCompatActivity implements GameActivityView {
 
-    private static final int TIMERCOUNTDOWN = 15000;
+    private static final int TIMERCOUNTDOWN = 5000;
     private static final int SECOND = 1000;
     private static final int ZERO = 0;
-    private static final int TEN = 10;
+    private static final int FINAL_COUNT_DOWN = 3;
 
 
     @BindView(R.id.activity_game_tv_time)
@@ -31,6 +28,8 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
     public TextView mScoreTextView;
     @BindView(R.id.activity_game_tv_max_score)
     public TextView mMaxScoreTextView;
+    @BindView(R.id.activity_game_tv_score_max_text)
+    public TextView mMaxScoreLabelTextView;
 
     private GameActivityPresenter mPresenter;
 
@@ -67,7 +66,7 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
     }
 
     private void checkTimeIsRunningOut(long millisUntilFinished) {
-        if(millisUntilFinished/SECOND <= TEN) {
+        if(millisUntilFinished/SECOND <= FINAL_COUNT_DOWN) {
             mTimeTextView.setAnimation(AnimationUtils.loadAnimation(GameActivity.this, R.anim.blink_animation));
             mTimeTextView.setTextColor(ContextCompat.getColor(GameActivity.this, R.color.endUpTime));
         }
@@ -102,7 +101,7 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
         }
         mCurrentScore++;
         mScoreTextView.setText(String.valueOf(mCurrentScore));
-        if(Integer.valueOf(mMaxScoreTextView.getText().toString()) > ZERO && isNewRecord(mCurrentScore)) {
+        if(maxScoreIsBiggerThanZero() && isNewRecord(mCurrentScore)) {
             mScoreTextView.setTextColor(ContextCompat.getColor(this, R.color.maxScorer));
             mScoreTextView.setAnimation(AnimationUtils.loadAnimation(GameActivity.this, R.anim.shake_animation));
         }
@@ -115,7 +114,7 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
     public void timeOver() {
         mPresenter.saveStatistics(mCurrentScore);
         if(isNewRecord(mCurrentScore)) {
-            mMaxScoreTextView.setText(String.valueOf(mCurrentScore));
+            setMaxScoreView();
         }
         mCurrentScore = ZERO;
         mScoreTextView.setText(String.valueOf(mCurrentScore));
@@ -126,5 +125,21 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
     @Override
     public void startTimer() {
         mTimerCountDown.start();
+        mMaxScoreTextView.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+    }
+
+    public void setMaxScoreView() {
+        mMaxScoreTextView.setAnimation(AnimationUtils.loadAnimation(this, R.anim.zoom_in_animation));
+        mMaxScoreLabelTextView.setAnimation(AnimationUtils.loadAnimation(this, R.anim.zoom_in_animation));
+        mMaxScoreTextView.setText(String.valueOf(mCurrentScore));
+        mMaxScoreTextView.setTextColor(ContextCompat.getColor(this, R.color.maxScorer));
+
+    }
+
+    public boolean maxScoreIsBiggerThanZero() {
+        if(Integer.valueOf(mMaxScoreTextView.getText().toString()) > ZERO) {
+            return true;
+        }
+        return false;
     }
 }
