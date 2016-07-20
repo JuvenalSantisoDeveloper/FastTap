@@ -1,12 +1,16 @@
 package com.mustbear.app_fasttap;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -14,7 +18,7 @@ import butterknife.OnClick;
 
 public class GameActivity extends AppCompatActivity implements GameActivityView {
 
-    private static final int TIMERCOUNTDOWN = 5000;
+    private static final int TIMERCOUNTDOWN = 15000;
     private static final int SECOND = 1000;
     private static final int ZERO = 0;
     private static final int FINAL_COUNT_DOWN = 3;
@@ -134,6 +138,8 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
         mMaxScoreTextView.setText(String.valueOf(mCurrentScore));
         mMaxScoreTextView.setTextColor(ContextCompat.getColor(this, R.color.maxScorer));
 
+        Toast toast = Toast.makeText(this, "FIN!", Toast.LENGTH_SHORT);
+        toast.show();
     }
 
     public boolean maxScoreIsBiggerThanZero() {
