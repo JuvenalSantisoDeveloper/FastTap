@@ -6,4 +6,8 @@
     <string name="tiempo">tiempo</string>
     <string name="score">puntuacion</string>
 
+    <!-- dialog -->
+    <string name="dialog_gameover_title">Partida terminada</string>
+    <string name="dialog_gameover_positive_button">Aceptar</string>
+
 </resources>

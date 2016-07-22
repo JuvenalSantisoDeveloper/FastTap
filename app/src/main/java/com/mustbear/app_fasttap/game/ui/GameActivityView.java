@@ -1,8 +1,9 @@
-package com.mustbear.app_fasttap;
+package com.mustbear.app_fasttap.game.ui;
 
 public interface GameActivityView {
     void tap();
     void timeOver();
     void startTimer();
+    void updateFields();
 
 }

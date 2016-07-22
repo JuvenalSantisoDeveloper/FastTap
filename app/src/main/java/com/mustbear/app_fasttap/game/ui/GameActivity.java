@@ -1,4 +1,4 @@
-package com.mustbear.app_fasttap;
+package com.mustbear.app_fasttap.game.ui;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -6,13 +6,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.mustbear.app_fasttap.R;
+import com.mustbear.app_fasttap.data.entities.Score;
+import com.mustbear.app_fasttap.game.GameActivityPresenter;
+import com.mustbear.app_fasttap.game.GameActivityPresenterImpl;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class GameActivity extends AppCompatActivity implements GameActivityView {
 
-    private static final int COUNTDOWN = 60000;
+    private static final int COUNTDOWN = 5000; //60000;
     private static final int SECOND = 1000;
 
 
@@ -28,7 +33,10 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
     private GameActivityPresenter mPresenter;
 
     private int mCurrentScore;
+    private Score mPlayerMaxScore;
     private CountDownTimer mTimerCountDown;
+
+    private boolean mOnGame = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +67,13 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
         };
 
         mPresenter.onCreate(this);
+
+        mPlayerMaxScore = mPresenter.lookForScore();
     }
 
     private void initUI() {
         mScoreTextView.setText(String.valueOf(mCurrentScore));
-        mMaxScoreTextView.setText(String.valueOf(mPresenter.lookScore()));
+        mMaxScoreTextView.setText(mPlayerMaxScore.getPlayer() + " " + mPlayerMaxScore.getMaxScore());
     }
 
     @OnClick(R.id.activity_game_ib_game)
@@ -83,14 +93,24 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
 
     @Override
     public void timeOver() {
-        mPresenter.saveStatistics(this, mCurrentScore);
-        mMaxScoreTextView.setText(String.valueOf(mCurrentScore));
-        mCurrentScore = 0;
-        mScoreTextView.setText(String.valueOf(mCurrentScore));
+        DialogGameOver dialog = new DialogGameOver();
+        Bundle bundle = new Bundle();
+        bundle.putInt(DialogGameOver.KEY_SCORE, mCurrentScore);
+        dialog.setArguments(bundle);
+        dialog.setPresenter(mPresenter,this);
+        dialog.show(getSupportFragmentManager(),"");
     }
 
     @Override
     public void startTimer() {
         mTimerCountDown.start();
+    }
+
+    @Override
+    public void updateFields() {
+        mPlayerMaxScore = mPresenter.lookForScore();
+        mMaxScoreTextView.setText(mPlayerMaxScore.getPlayer() + " " + mPlayerMaxScore.getMaxScore());
+        mCurrentScore = 0;
+        mScoreTextView.setText(String.valueOf(mCurrentScore));
     }
 }
