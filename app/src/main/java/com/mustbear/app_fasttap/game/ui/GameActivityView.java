@@ -5,5 +5,6 @@ public interface GameActivityView {
     void timeOver();
     void startTimer();
     void updateFields();
+    void showNewScoreDialog();
 
 }

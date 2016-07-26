@@ -73,7 +73,8 @@ public class DialogGameOver extends DialogFragment implements DialogInterface.On
             positiveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mPresenter.saveStatistics(mContext, new Score(dialogGameoverEtUsername.getText().toString(),mCurrentScore));
+                    mPresenter.saveNewMaxScore(mContext, new Score(dialogGameoverEtUsername.getText().toString(),mCurrentScore));
+                    mPresenter.updateViewFields();
                     dismiss();
                 }
             });

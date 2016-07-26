@@ -93,12 +93,7 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
 
     @Override
     public void timeOver() {
-        DialogGameOver dialog = new DialogGameOver();
-        Bundle bundle = new Bundle();
-        bundle.putInt(DialogGameOver.KEY_SCORE, mCurrentScore);
-        dialog.setArguments(bundle);
-        dialog.setPresenter(mPresenter,this);
-        dialog.show(getSupportFragmentManager(),"");
+        mPresenter.saveStatistics(mCurrentScore);
     }
 
     @Override
@@ -112,5 +107,15 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
         mMaxScoreTextView.setText(mPlayerMaxScore.getPlayer() + " " + mPlayerMaxScore.getMaxScore());
         mCurrentScore = 0;
         mScoreTextView.setText(String.valueOf(mCurrentScore));
+    }
+
+    @Override
+    public void showNewScoreDialog() {
+        DialogGameOver dialog = new DialogGameOver();
+        Bundle bundle = new Bundle();
+        bundle.putInt(DialogGameOver.KEY_SCORE, mCurrentScore);
+        dialog.setArguments(bundle);
+        dialog.setPresenter(mPresenter,this);
+        dialog.show(getSupportFragmentManager(),"");
     }
 }

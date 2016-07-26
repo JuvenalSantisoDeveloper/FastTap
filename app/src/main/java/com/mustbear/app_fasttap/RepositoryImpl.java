@@ -18,14 +18,18 @@ public class RepositoryImpl implements Repository {
     public RepositoryImpl() {}
 
     @Override
-    public boolean saveStatistics(Context ctx, Score score) {
-        if(score.getMaxScore() > DataScorer.getInstance().getMaxScore()) {
-            DataScorer.getInstance().setScore(score);
-            writeScoreFile(ctx);
+    public boolean saveStatistics(int score) {
+        if(score > DataScorer.getInstance().getMaxScore()) {
             return true;
         } else {
             return false;
         }
+    }
+
+    @Override
+    public void saveNewMaxScore(Context ctx, Score score) {
+        DataScorer.getInstance().setScore(score);
+        writeScoreFile(ctx);
     }
 
     @Override
