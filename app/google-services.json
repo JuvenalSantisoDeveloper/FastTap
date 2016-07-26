@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "161722491074",
+    "firebase_url": "https://fasttap-a59dd.firebaseio.com",
+    "project_id": "fasttap-a59dd",
+    "storage_bucket": "fasttap-a59dd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:161722491074:android:24445807799cc438",
+        "android_client_info": {
+          "package_name": "com.mustbear.app_fasttap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "161722491074-d7pmqib5m14lajpr9gfh5hljeal2s5lp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1DnH9WhxZjGRHekE6RXgLbNX4RO8OAjM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
