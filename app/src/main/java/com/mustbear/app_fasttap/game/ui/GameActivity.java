@@ -6,6 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.mustbear.app_fasttap.R;
 import com.mustbear.app_fasttap.data.entities.Score;
 import com.mustbear.app_fasttap.game.GameActivityPresenter;
@@ -19,6 +22,8 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
 
     private static final int COUNTDOWN = 5000; //60000;
     private static final int SECOND = 1000;
+
+    private InterstitialAd mIntersticialAd;
 
 
     @BindView(R.id.activity_game_tv_time)
@@ -35,8 +40,6 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
     private int mCurrentScore;
     private Score mPlayerMaxScore;
     private CountDownTimer mTimerCountDown;
-
-    private boolean mOnGame = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +72,8 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
         mPresenter.onCreate(this);
 
         mPlayerMaxScore = mPresenter.lookForScore();
+
+        setupIntersticialAd();
     }
 
     private void initUI() {
@@ -93,7 +98,10 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
 
     @Override
     public void timeOver() {
+        mPresenter.showIntersticialAd(mCurrentScore);
         mPresenter.saveStatistics(mCurrentScore);
+       /* Intent i = new Intent(this,AdActivity.class);
+        startActivity(i);*/
     }
 
     @Override
@@ -118,4 +126,43 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
         dialog.setPresenter(mPresenter,this);
         dialog.show(getSupportFragmentManager(),"");
     }
+
+    @Override
+    public void showIntersticialAd(double probability) {
+        if(randomToShowAd(probability) && mIntersticialAd.isLoaded()) {
+            mIntersticialAd.show();
+        }
+    }
+
+    private boolean randomToShowAd(double probability) {
+        if ( Math.random() < probability ) {
+            return true;
+        }
+        return false;
+    }
+
+    private void setupIntersticialAd() {
+        mIntersticialAd = new InterstitialAd(this);
+        mIntersticialAd.setAdUnitId(getResources().getString(R.string.ad_id));
+
+        mIntersticialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                super.onAdClosed();
+
+                requestNewIntersticialAd();
+            }
+        });
+
+        requestNewIntersticialAd();
+    }
+
+    private void requestNewIntersticialAd() {
+        final String myDevice = "37ABF957437D05CC";
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(myDevice)
+                .build();
+        mIntersticialAd.loadAd(adRequest);
+    }
+
 }

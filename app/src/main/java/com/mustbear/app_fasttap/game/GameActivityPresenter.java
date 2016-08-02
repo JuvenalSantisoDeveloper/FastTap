@@ -10,4 +10,5 @@ public interface GameActivityPresenter {
     void saveNewMaxScore(Context ctx, Score score);
     Score lookForScore();
     void updateViewFields();
+    void showIntersticialAd(int currentRecord);
 }

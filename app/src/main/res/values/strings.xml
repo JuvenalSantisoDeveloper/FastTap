@@ -10,4 +10,8 @@
     <string name="dialog_gameover_title">Partida terminada</string>
     <string name="dialog_gameover_positive_button">Aceptar</string>
 
+    <!-- Ad -->
+    <string name="ad_id">ca-app-pub-6009767517666084/4010269856</string>
+    <string name="prueba_ad">ca-app-pub-3940256099942544/6300978111</string>
+
 </resources>

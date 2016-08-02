@@ -9,6 +9,10 @@ import com.mustbear.app_fasttap.game.ui.GameActivityView;
 
 public class GameActivityPresenterImpl implements GameActivityPresenter {
 
+    private double NEAR_RECORD_PERCENTAGE = 0.4;
+    private double NORMAL_PERCENTAGE = 0.2;
+
+
     private GameActivityView mView;
     private Repository mRepository;
 
@@ -45,5 +49,14 @@ public class GameActivityPresenterImpl implements GameActivityPresenter {
     @Override
     public void updateViewFields() {
         mView.updateFields();
+    }
+
+    @Override
+    public void showIntersticialAd(int currentRecord) {
+        if(mRepository.lookScore().getMaxScore() < currentRecord) {
+            mView.showIntersticialAd(NEAR_RECORD_PERCENTAGE);
+        } else {
+            mView.showIntersticialAd(NORMAL_PERCENTAGE);
+        }
     }
 }

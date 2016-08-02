@@ -28,6 +28,8 @@ dependencies {
 
     compile "com.jakewharton:butterknife:$rootProject.ext.butterKnifeLibraryVersion"
     apt "com.jakewharton:butterknife-compiler:$rootProject.ext.butterKnifeLibraryVersion"
+
+    compile "com.google.firebase:firebase-ads:$rootProject.ext.firebaseLibraryVersion"
 }
 
 
