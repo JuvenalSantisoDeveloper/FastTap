@@ -11,6 +11,7 @@ buildscript {
         // in the individual module build.gradle filesbuildscript {
 
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'com.google.gms:google-services:3.0.0'
 
     }
 }
@@ -28,4 +29,5 @@ task clean(type: Delete) {
 ext {
     androidLibraryVersion = '23.4.0'
     butterKnifeLibraryVersion = '8.1.0'
+    firebaseLibraryVersion = '9.0.0'
 }
