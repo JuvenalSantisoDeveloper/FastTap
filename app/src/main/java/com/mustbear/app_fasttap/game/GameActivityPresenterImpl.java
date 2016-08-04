@@ -9,8 +9,8 @@ import com.mustbear.app_fasttap.game.ui.GameActivityView;
 
 public class GameActivityPresenterImpl implements GameActivityPresenter {
 
-    private double NEAR_RECORD_PERCENTAGE = 0.4;
-    private double NORMAL_PERCENTAGE = 0.2;
+    private double NEAR_RECORD_PERCENTAGE = 0.45;
+    private double NORMAL_PERCENTAGE = 0.25;
 
 
     private GameActivityView mView;

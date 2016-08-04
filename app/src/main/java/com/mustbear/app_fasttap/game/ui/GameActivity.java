@@ -116,8 +116,6 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
     public void timeOver() {
         mPresenter.showIntersticialAd(mCurrentScore);
         mPresenter.saveStatistics(mCurrentScore);
-       /* Intent i = new Intent(this,AdActivity.class);
-        startActivity(i);*/
     }
 
     @Override
