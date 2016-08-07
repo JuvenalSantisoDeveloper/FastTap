@@ -30,10 +30,7 @@ public class GameActivityPresenterImpl implements GameActivityPresenter {
     public void saveStatistics(int score) {
         if(mRepository.saveStatistics(score)) {
             mView.showNewScoreDialog();
-        } else {
-            updateViewFields();
         }
-
     }
 
     @Override

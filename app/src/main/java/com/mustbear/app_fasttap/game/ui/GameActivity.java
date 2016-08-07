@@ -2,8 +2,10 @@ package com.mustbear.app_fasttap.game.ui;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -12,7 +14,6 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.mustbear.app_fasttap.R;
-import com.mustbear.app_fasttap.RepositoryImpl;
 import com.mustbear.app_fasttap.data.entities.Score;
 import com.mustbear.app_fasttap.game.GameActivityPresenter;
 import com.mustbear.app_fasttap.game.GameActivityPresenterImpl;
@@ -23,7 +24,9 @@ import butterknife.OnClick;
 
 public class GameActivity extends AppCompatActivity implements GameActivityView {
 
-    private static final int COUNTDOWN = 5000; //60000;
+    private static final int BUG_COUNTDOWN_TWO_SECONDS = 2000;
+
+    private static final int COUNTDOWN = 15000; //60000;
     private static final int SECOND = 1000;
     private static final int FINAL_COUNT_DOWN = 3;
 
@@ -50,6 +53,7 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
     private int mCurrentScore;
     private Score mPlayerMaxScore;
     private CountDownTimer mTimerCountDown;
+    private int mSecondsLeft;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,22 +65,46 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
         initUI();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mTimerCountDown.cancel();
+    }
+
     private void initData() {
         mPresenter = new GameActivityPresenterImpl(this);
 
         mCurrentScore = ZERO;
+        mSecondsLeft = COUNTDOWN/SECOND;
 
         mTimerCountDown = new CountDownTimer(COUNTDOWN, SECOND) {
             @Override
             public void onTick(long millisUntilFinished) {
-                mTimeTextView.setText(String.valueOf(millisUntilFinished / SECOND));
-                checkTimeIsRunningOut(millisUntilFinished / SECOND);
+
+                if (Math.round((float)millisUntilFinished / SECOND) != mSecondsLeft)
+                {
+                    mSecondsLeft = Math.round((float)millisUntilFinished / SECOND);
+                    mTimeTextView.setText(String.valueOf(mSecondsLeft));
+                }
+                checkTimeIsRunningOut(mSecondsLeft);
+
+                if(millisUntilFinished < BUG_COUNTDOWN_TWO_SECONDS) {
+                    Handler h = new Handler();
+                    int delay = SECOND; //milliseconds
+
+                    h.postDelayed(new Runnable(){
+                        public void run(){
+                            mSecondsLeft = 1;
+                            mTimeTextView.setText(String.valueOf(mSecondsLeft));
+                        }
+                    }, delay);
+                }
             }
 
             @Override
             public void onFinish() {
-                mTimeTextView.setText(String.valueOf(ZERO));
                 timeOver();
+                updateFields();
             }
         };
 
@@ -126,9 +154,11 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
 
     @Override
     public void updateFields() {
+        mTimeTextView.setText(String.valueOf(ZERO));
+
         mPlayerMaxScore = mPresenter.lookForScore();
         mMaxScoreTextView.setText(mPlayerMaxScore.getPlayer() + " " + mPlayerMaxScore.getMaxScore());
-        mCurrentScore = 0;
+        mCurrentScore = ZERO;
         mScoreTextView.setText(String.valueOf(mCurrentScore));
 
         mTimeTextView.setTextColor(ContextCompat.getColor(this, R.color.colorPrimaryText));
@@ -140,12 +170,12 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
 
         mMaxScoreTextView.setAnimation(AnimationUtils.loadAnimation(this, R.anim.zoom_in_animation));
         mMaxScoreLabelTextView.setAnimation(AnimationUtils.loadAnimation(this, R.anim.zoom_in_animation));
-        mMaxScoreTextView.setText(String.valueOf(mCurrentScore));
+        mMaxScoreTextView.setText(String.valueOf(mPresenter.lookForScore().getMaxScore()));
         mMaxScoreTextView.setTextColor(ContextCompat.getColor(this, R.color.maxScorer));
 
         DialogGameOver dialog = new DialogGameOver();
         Bundle bundle = new Bundle();
-        bundle.putInt(DialogGameOver.KEY_SCORE, mCurrentScore);
+        bundle.putInt(DialogGameOver.KEY_SCORE, mPresenter.lookForScore().getMaxScore());
         dialog.setArguments(bundle);
         dialog.setPresenter(mPresenter, this);
         dialog.show(getSupportFragmentManager(), "");
