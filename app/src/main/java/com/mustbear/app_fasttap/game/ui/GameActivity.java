@@ -5,9 +5,9 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdListener;
@@ -47,6 +47,8 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
     public TextView mMaxScoreLabelTextView;
     @BindView(R.id.activity_game_tv_score_text)
     public TextView mScoreLabelTextView;
+    @BindView(R.id.activity_game_pb_progressBar)
+    public ProgressBar mProgressBar;
 
     private GameActivityPresenter mPresenter;
 
@@ -75,25 +77,24 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
         mPresenter = new GameActivityPresenterImpl(this);
 
         mCurrentScore = ZERO;
-        mSecondsLeft = COUNTDOWN/SECOND;
+        mSecondsLeft = COUNTDOWN / SECOND;
 
         mTimerCountDown = new CountDownTimer(COUNTDOWN, SECOND) {
             @Override
             public void onTick(long millisUntilFinished) {
 
-                if (Math.round((float)millisUntilFinished / SECOND) != mSecondsLeft)
-                {
-                    mSecondsLeft = Math.round((float)millisUntilFinished / SECOND);
+                if (Math.round((float) millisUntilFinished / SECOND) != mSecondsLeft) {
+                    mSecondsLeft = Math.round((float) millisUntilFinished / SECOND);
                     mTimeTextView.setText(String.valueOf(mSecondsLeft));
                 }
                 checkTimeIsRunningOut(mSecondsLeft);
 
-                if(millisUntilFinished < BUG_COUNTDOWN_TWO_SECONDS) {
+                if (millisUntilFinished < BUG_COUNTDOWN_TWO_SECONDS) {
                     Handler h = new Handler();
                     int delay = SECOND; //milliseconds
 
-                    h.postDelayed(new Runnable(){
-                        public void run(){
+                    h.postDelayed(new Runnable() {
+                        public void run() {
                             mSecondsLeft = 1;
                             mTimeTextView.setText(String.valueOf(mSecondsLeft));
                         }
@@ -133,11 +134,12 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
         }
         mCurrentScore++;
 
-        if(maxScoreIsBiggerThanZero() && mPresenter.isNewRecord(mCurrentScore)) {
+        if (maxScoreIsBiggerThanZero() && mPresenter.isNewRecord(mCurrentScore)) {
             mScoreTextView.setTextColor(ContextCompat.getColor(this, R.color.maxScorer));
             mScoreTextView.setAnimation(AnimationUtils.loadAnimation(GameActivity.this, R.anim.shake_animation));
         }
         mScoreTextView.setText(String.valueOf(mCurrentScore));
+        calculateProgress();
     }
 
     @Override
@@ -230,4 +232,8 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
         return mPresenter.maxScoreIsBiggerThanZero();
     }
 
+    private void calculateProgress() {
+        int progress = (mCurrentScore * 100)/mPlayerMaxScore.getMaxScore();
+        mProgressBar.setProgress(progress);
+    }
 }

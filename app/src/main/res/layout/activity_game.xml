@@ -78,4 +78,15 @@
         android:id="@+id/activity_game_tv_time"
         android:textColor="@color/colorPrimaryText"
         android:text="@string/time"/>
+
+    <ProgressBar
+        android:id="@+id/activity_game_pb_progressBar"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_centerInParent="true"
+        android:indeterminate="false"
+        android:progressDrawable="@drawable/circle_progress_bar"
+        android:background="@drawable/circle_bg_shape_progress_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:max="100"/>
 </RelativeLayout>
