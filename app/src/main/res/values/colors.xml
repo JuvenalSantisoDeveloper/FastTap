@@ -17,8 +17,8 @@
     <color name="score">#FF7043</color>
     <color name="maxScorer">#64DD17</color>
 
-    <color name="ppp">#FFC107</color>
-    <color name="pppp">#FFEB3B</color>
+    <color name="startProgressBarColor">#FFC107</color>
+    <color name="endProgressBarColor">#FFEB3B</color>
 
 
 </resources>
