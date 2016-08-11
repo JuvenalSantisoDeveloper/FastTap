@@ -22,8 +22,10 @@ public class RepositoryImpl implements Repository {
     @Override
     public boolean saveStatistics(int score) {
         if(score > DataScorer.getInstance().getMaxScore()) {
+            DataScorer.getInstance().setMaxScore(score);
             return true;
         } else {
+            DataScorer.getInstance().setMaxScore(score);
             return false;
         }
     }

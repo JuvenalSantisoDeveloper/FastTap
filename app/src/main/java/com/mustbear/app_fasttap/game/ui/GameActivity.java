@@ -1,10 +1,15 @@
 package com.mustbear.app_fasttap.game.ui;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -14,9 +19,9 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.mustbear.app_fasttap.R;
-import com.mustbear.app_fasttap.data.entities.Score;
 import com.mustbear.app_fasttap.game.GameActivityPresenter;
 import com.mustbear.app_fasttap.game.GameActivityPresenterImpl;
+import com.mustbear.app_fasttap.stats.ui.StatsActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,11 +54,12 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
     public TextView mScoreLabelTextView;
     @BindView(R.id.activity_game_pb_progressBar)
     public ProgressBar mProgressBar;
+    @BindView(R.id.activity_game_toolbar)
+    public Toolbar mToolbar;
 
     private GameActivityPresenter mPresenter;
 
     private int mCurrentScore;
-    private Score mPlayerMaxScore;
     private CountDownTimer mTimerCountDown;
     private int mSecondsLeft;
 
@@ -65,12 +71,31 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
 
         initData();
         initUI();
+
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mTimerCountDown.cancel();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_game_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_global_stats:
+                Intent intent = new Intent(this, StatsActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void initData() {
@@ -111,14 +136,17 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
 
         mPresenter.onCreate(this);
 
-        mPlayerMaxScore = mPresenter.lookForScore();
-
         setupIntersticialAd();
     }
 
     private void initUI() {
         mScoreTextView.setText(String.valueOf(mCurrentScore));
-        mMaxScoreTextView.setText(mPlayerMaxScore.getPlayer() + " " + mPlayerMaxScore.getMaxScore());
+        mMaxScoreTextView.setText(String.valueOf(mPresenter.lookForScore().getMaxScore()));
+
+        setSupportActionBar(mToolbar);
+
+        mToolbar.setTitle(getResources().getString(R.string.app_name));
+        mToolbar.setTitleTextColor(Color.WHITE);
     }
 
     @OnClick(R.id.activity_game_ib_game)
@@ -158,8 +186,7 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
     public void updateFields() {
         mTimeTextView.setText(String.valueOf(ZERO));
 
-        mPlayerMaxScore = mPresenter.lookForScore();
-        mMaxScoreTextView.setText(mPlayerMaxScore.getPlayer() + " " + mPlayerMaxScore.getMaxScore());
+        mMaxScoreTextView.setText(String.valueOf(mPresenter.lookForScore().getMaxScore()));
         mCurrentScore = ZERO;
         mScoreTextView.setText(String.valueOf(mCurrentScore));
 
@@ -233,7 +260,11 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
     }
 
     private void calculateProgress() {
-        int progress = (mCurrentScore * 100)/mPlayerMaxScore.getMaxScore();
+        int progress = 0;
+        if(mPresenter.lookForScore().getMaxScore() != ZERO) {
+            progress = (mCurrentScore * 100) / mPresenter.lookForScore().getMaxScore();
+        }
+
         mProgressBar.setProgress(progress);
     }
 }
