@@ -1,5 +1,10 @@
 package com.mustbear.app_fasttap.stats;
 
 
-public class StatsPresenter {
+import com.mustbear.app_fasttap.data.entities.Score;
+
+import java.util.List;
+
+public interface StatsPresenter {
+    List<Score> loadData();
 }

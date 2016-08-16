@@ -23,8 +23,7 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
-        android:layout_below="@id/activity_game_toolbar"
-        tools:context=".stats.ui.StatsActivity">
+        android:layout_below="@id/activity_game_toolbar">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/activity_stats_recycler_view"

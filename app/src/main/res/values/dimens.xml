@@ -14,4 +14,7 @@
     <dimen name="activity_game_time">30sp</dimen>
     <dimen name="text_gap">2sp</dimen>
 
+    <!-- Stats Ranked margin -->
+    <dimen name="activity_stats_ranked_mergin_between_cards">5dp</dimen>
+
 </resources>

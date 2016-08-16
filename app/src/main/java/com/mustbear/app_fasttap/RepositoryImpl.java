@@ -11,6 +11,8 @@ import com.mustbear.app_fasttap.game.ui.GameActivity;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class RepositoryImpl implements Repository {
@@ -75,6 +77,17 @@ public class RepositoryImpl implements Repository {
         return false;
     }
 
+    @Override
+    public List<Score> loadRankedData() {
+        List<Score> ranked = new ArrayList<Score>();
+        ranked.add(new Score("Ovomaltina", 81));
+        ranked.add(new Score("Juvenal", 78));
+        ranked.add(new Score("Romina", 75));
+        ranked.add(new Score("Rina", 70));
+        ranked.add(new Score("Javi", 69));
+        return ranked;
+    }
+
     private void writeScoreFile(Context ctx) {
 
         try
@@ -94,5 +107,7 @@ public class RepositoryImpl implements Repository {
             Log.e("Ficheros", "Error al escribir fichero a memoria interna");
         }
     }
+
+
 
 }

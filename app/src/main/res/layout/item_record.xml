@@ -1,32 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/activity_stats_ranked_mergin_between_cards"
     android:id="@+id/item_record_card_container">
     
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/item_record_linearlayout_container"
+        android:layout_gravity="center"
         android:weightSum="3">
 
         <ImageView
             android:id="@+id/item_record_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:src="@android:drawable/ic_dialog_info"
             android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/item_record_name"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:gravity="center"
             android:layout_weight="1.5"/>
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:id="@+id/item_record_score"
+            android:gravity="center"
             android:layout_weight="0.5"/>
 
 
