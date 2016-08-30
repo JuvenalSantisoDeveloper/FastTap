@@ -15,4 +15,8 @@
     <string name="ad_id">ca-app-pub-6009767517666084/4010269856</string>
     <string name="prueba_ad">ca-app-pub-3940256099942544/6300978111</string>
 
+    <!-- ID APP -->
+    <string name="app_id">51991240521</string>
+
+
 </resources>

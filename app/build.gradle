@@ -28,11 +28,13 @@ dependencies {
     compile "com.android.support:recyclerview-v7:$rootProject.ext.androidLibraryVersion"
     compile "com.android.support:cardview-v7:$rootProject.ext.androidLibraryVersion"
 
+    compile "com.google.android.gms:play-services-auth:$rootProject.ext.googlePlayServicesLibraryVersion"
+    compile "com.google.android.gms:play-services-games:$rootProject.ext.googlePlayServicesLibraryVersion"
 
     compile "com.jakewharton:butterknife:$rootProject.ext.butterKnifeLibraryVersion"
     apt "com.jakewharton:butterknife-compiler:$rootProject.ext.butterKnifeLibraryVersion"
 
-    compile "com.google.firebase:firebase-ads:$rootProject.ext.firebaseLibraryVersion"
+    compile "com.google.firebase:firebase-ads:$rootProject.ext.googlePlayServicesLibraryVersion"
 }
 
 

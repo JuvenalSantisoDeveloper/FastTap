@@ -29,5 +29,6 @@ task clean(type: Delete) {
 ext {
     androidLibraryVersion = '23.4.0'
     butterKnifeLibraryVersion = '8.1.0'
-    firebaseLibraryVersion = '9.0.0'
+    firebaseLibraryVersion = '9.4.0'
+    googlePlayServicesLibraryVersion = '9.4.0'
 }
