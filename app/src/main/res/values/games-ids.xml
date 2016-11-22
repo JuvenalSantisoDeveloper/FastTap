@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Google Play game services IDs.
+Save this file as res/values/games-ids.xml in your project.
+-->
+<resources>
+    <string name="app_id">51991240521</string>
+    <string name="package_name">com.mustbear.app_fasttap</string>
+    <string name="achievement_finger_beginner">CgkIyb6t18EBEAIQAQ</string>
+    <string name="achievement_fire_at_your_finger">CgkIyb6t18EBEAIQAw</string>
+    <string name="achievement_welcome">CgkIyb6t18EBEAIQBA</string>
+    <string name="achievement_wc_time">CgkIyb6t18EBEAIQBQ</string>
+    <string name="achievement_prime">CgkIyb6t18EBEAIQBg</string>
+    <string name="leaderboard_ranked">CgkIyb6t18EBEAIQAg</string>
+</resources>

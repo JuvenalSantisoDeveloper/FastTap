@@ -8,4 +8,14 @@
         app:showAsAction="always"
         android:icon="@android:drawable/ic_menu_sort_by_size"></item>
 
+    <item android:id="@+id/menu_global_achievements"
+        app:showAsAction="always"
+        android:icon="@android:drawable/btn_star_big_off"
+        android:title="Achievements"></item>
+
+    <item android:id="@+id/menu_sign_out"
+        android:title="Sign out"></item>
+
+
+
 </menu>

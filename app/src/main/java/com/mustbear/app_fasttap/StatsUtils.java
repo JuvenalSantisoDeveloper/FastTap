@@ -1,4 +1,4 @@
-package com.mustbear.app_fasttap.stats;
+package com.mustbear.app_fasttap;
 
 import android.content.Context;
 import android.content.res.ColorStateList;

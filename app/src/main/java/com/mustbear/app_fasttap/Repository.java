@@ -8,13 +8,9 @@ import java.util.List;
 
 public interface Repository {
     //GameActivity
-    boolean saveStatistics(int score);
-    void saveNewMaxScore(Context ctx, Score score);
+    boolean saveStatistics(Context ctx, int score);
     Score lookScore();
     boolean isNewRecord(int currentTaps);
     void loadLocalScore(Context ctx);
     boolean maxScoreIsBiggerThanZero();
-
-    //StatsActivity
-    List<Score> loadRankedData();
 }

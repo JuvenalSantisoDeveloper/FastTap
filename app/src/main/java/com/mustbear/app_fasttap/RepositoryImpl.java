@@ -5,14 +5,11 @@ import android.util.Log;
 
 import com.mustbear.app_fasttap.data.DataScorer;
 import com.mustbear.app_fasttap.data.entities.Score;
-import com.mustbear.app_fasttap.game.GameActivityPresenterImpl;
 import com.mustbear.app_fasttap.game.ui.GameActivity;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class RepositoryImpl implements Repository {
@@ -22,19 +19,17 @@ public class RepositoryImpl implements Repository {
     public RepositoryImpl() {}
 
     @Override
-    public boolean saveStatistics(int score) {
+    public boolean saveStatistics(Context context, int score) {
         if(score > DataScorer.getInstance().getMaxScore()) {
-            DataScorer.getInstance().setMaxScore(score);
+            saveNewMaxScore(context,score);
             return true;
-        } else {
-            DataScorer.getInstance().setMaxScore(score);
-            return false;
         }
+        return false;
+
     }
 
-    @Override
-    public void saveNewMaxScore(Context ctx, Score score) {
-        DataScorer.getInstance().setScore(score);
+    public void saveNewMaxScore(Context ctx, int score) {
+        DataScorer.getInstance().setMaxScore(score);
         writeScoreFile(ctx);
     }
 
@@ -75,17 +70,6 @@ public class RepositoryImpl implements Repository {
             return true;
         }
         return false;
-    }
-
-    @Override
-    public List<Score> loadRankedData() {
-        List<Score> ranked = new ArrayList<Score>();
-        ranked.add(new Score("Ovomaltina", 81));
-        ranked.add(new Score("Juvenal", 78));
-        ranked.add(new Score("Romina", 75));
-        ranked.add(new Score("Rina", 70));
-        ranked.add(new Score("Javi", 69));
-        return ranked;
     }
 
     private void writeScoreFile(Context ctx) {

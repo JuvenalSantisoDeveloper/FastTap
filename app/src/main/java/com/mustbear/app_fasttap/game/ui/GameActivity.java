@@ -1,6 +1,5 @@
 package com.mustbear.app_fasttap.game.ui;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -8,26 +7,37 @@ import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.games.Games;
 import com.mustbear.app_fasttap.R;
+import com.mustbear.app_fasttap.game.GameSettings;
+import com.mustbear.app_fasttap.game.GameSettingsImpl;
 import com.mustbear.app_fasttap.game.GameActivityPresenter;
 import com.mustbear.app_fasttap.game.GameActivityPresenterImpl;
-import com.mustbear.app_fasttap.stats.ui.StatsActivity;
+import com.mustbear.app_fasttap.network.GoogleApiClientHelper;
+import com.mustbear.app_fasttap.network.GoogleApiClientHelperImpl;
+import com.mustbear.app_fasttap.network.GoogleApiHelper;
+import com.mustbear.app_fasttap.network.NetworkConnections;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class GameActivity extends AppCompatActivity implements GameActivityView {
+public class GameActivity extends AppCompatActivity implements GameActivityView, NetworkConnections {
+
+    private static final String TAG = GameActivity.class.getName();
 
     private static final int BUG_COUNTDOWN_TWO_SECONDS = 2000;
 
@@ -36,9 +46,6 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
     private static final int FINAL_COUNT_DOWN = 3;
 
     public static final int ZERO = 0;
-
-    private InterstitialAd mIntersticialAd;
-
 
     @BindView(R.id.activity_game_tv_time)
     public TextView mTimeTextView;
@@ -56,6 +63,14 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
     public ProgressBar mProgressBar;
     @BindView(R.id.activity_game_toolbar)
     public Toolbar mToolbar;
+    @BindView(R.id.activity_game_container_game)
+    public RelativeLayout mContainer;
+
+    private GameSettings mGameSettings;
+
+    private InterstitialAd mIntersticialAd;
+
+    private GoogleApiClientHelper mClient;
 
     private GameActivityPresenter mPresenter;
 
@@ -69,9 +84,27 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
         setContentView(R.layout.activity_game);
         ButterKnife.bind(this);
 
+
+        mClient = new GoogleApiClientHelperImpl();
+        mClient.onCreate(this,GoogleApiHelper.getInstance(),GoogleApiHelper.getInstance(), GoogleApiHelper.GoogleApiServices.GAMES);
+
+        GoogleApiHelper.getInstance().setNetworkConnections(this);
+
         initData();
         initUI();
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mClient.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mClient.onStop();
     }
 
     @Override
@@ -90,8 +123,14 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_global_stats:
-                Intent intent = new Intent(this, StatsActivity.class);
-                startActivity(intent);
+                mGameSettings.seeLeaderBoard();
+                return true;
+            case R.id.menu_global_achievements:
+                mGameSettings.seeAchievements();
+                return true;
+            case R.id.menu_sign_out:
+                mGameSettings.signOut();
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -99,6 +138,9 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
     }
 
     private void initData() {
+
+        mGameSettings = new GameSettingsImpl(this);
+
         mPresenter = new GameActivityPresenterImpl(this);
 
         mCurrentScore = ZERO;
@@ -168,12 +210,16 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
         }
         mScoreTextView.setText(String.valueOf(mCurrentScore));
         calculateProgress();
+
+        mGameSettings.achievementFingerBeginner(mCurrentScore);
+        mGameSettings.achievementFireAtYourFinger(mCurrentScore);
+        mGameSettings.achievementPrime(mCurrentScore);
     }
 
     @Override
     public void timeOver() {
         mPresenter.showIntersticialAd(mCurrentScore);
-        mPresenter.saveStatistics(mCurrentScore);
+        mPresenter.saveStatistics(this, mCurrentScore);
     }
 
     @Override
@@ -195,19 +241,15 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
     }
 
     @Override
-    public void showNewScoreDialog() {
+    public void showNewScore() {
+
+        mGameSettings.submitScore(mPresenter.lookForScore().getMaxScore());
 
         mMaxScoreTextView.setAnimation(AnimationUtils.loadAnimation(this, R.anim.zoom_in_animation));
         mMaxScoreLabelTextView.setAnimation(AnimationUtils.loadAnimation(this, R.anim.zoom_in_animation));
         mMaxScoreTextView.setText(String.valueOf(mPresenter.lookForScore().getMaxScore()));
         mMaxScoreTextView.setTextColor(ContextCompat.getColor(this, R.color.maxScorer));
 
-        DialogGameOver dialog = new DialogGameOver();
-        Bundle bundle = new Bundle();
-        bundle.putInt(DialogGameOver.KEY_SCORE, mPresenter.lookForScore().getMaxScore());
-        dialog.setArguments(bundle);
-        dialog.setPresenter(mPresenter, this);
-        dialog.show(getSupportFragmentManager(), "");
     }
 
     @Override
@@ -243,7 +285,7 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
     private void requestNewIntersticialAd() {
         final String myDevice = "37ABF957437D05CC";
         AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(myDevice)
+                //.addTestDevice(myDevice)
                 .build();
         mIntersticialAd.loadAd(adRequest);
     }
@@ -261,10 +303,29 @@ public class GameActivity extends AppCompatActivity implements GameActivityView 
 
     private void calculateProgress() {
         int progress = 0;
-        if(mPresenter.lookForScore().getMaxScore() != ZERO) {
+        if (mPresenter.lookForScore().getMaxScore() != ZERO) {
             progress = (mCurrentScore * 100) / mPresenter.lookForScore().getMaxScore();
         }
 
         mProgressBar.setProgress(progress);
+    }
+
+    @Override
+    public void onConnectionFailed() {
+        Log.d(TAG, "onConnectionFailed:");
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        Log.d(TAG, "onConnected:");
+        mContainer.setVisibility(View.VISIBLE);
+
+        Log.d(TAG, " --- " + Games.getCurrentAccountName(GoogleApiHelper.getInstance().getGoogleApiClient()) + " " + GoogleApiHelper.getInstance().isConnected());
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+        Log.d(TAG, "onConnectionSuspended:");
     }
 }

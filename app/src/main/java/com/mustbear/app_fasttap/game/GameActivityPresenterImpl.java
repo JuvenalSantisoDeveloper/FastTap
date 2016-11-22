@@ -27,25 +27,15 @@ public class GameActivityPresenterImpl implements GameActivityPresenter {
     }
 
     @Override
-    public void saveStatistics(int score) {
-        if(mRepository.saveStatistics(score)) {
-            mView.showNewScoreDialog();
+    public void saveStatistics(Context context, int score) {
+        if(mRepository.saveStatistics(context, score)) {
+            mView.showNewScore();
         }
-    }
-
-    @Override
-    public void saveNewMaxScore(Context ctx, Score score) {
-        mRepository.saveNewMaxScore(ctx, score);
     }
 
     @Override
     public Score lookForScore() {
         return mRepository.lookScore();
-    }
-
-    @Override
-    public void updateViewFields() {
-        mView.updateFields();
     }
 
     @Override

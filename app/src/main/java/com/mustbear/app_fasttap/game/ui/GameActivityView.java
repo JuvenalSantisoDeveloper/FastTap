@@ -5,7 +5,7 @@ public interface GameActivityView {
     void timeOver();
     void startTimer();
     void updateFields();
-    void showNewScoreDialog();
+    void showNewScore();
     void showIntersticialAd(double prob);
 
 }
